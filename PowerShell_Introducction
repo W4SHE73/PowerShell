@@ -1,0 +1,70 @@
+#powershell no es case sensitive
+Get-Host -> para saber especificaciones de nuestra powershell
+update-help -> para actualizar powershell
+cmdlet -> es una combinacion de verbo y nombre separador por un guion (-)
+Get-LocalUser -> nos muestra los usuarios de nuestro equipo
+Get-LocalGroup -> nos muesta los grupos
+Get-date -> la fecha de nuestro sistema
+clear-host -> nos limpia la pantalla (tambien se puede pulsar: CTRL + L)
+Get-Location -> nos muestra nuestra ubicacion
+Get-ChildItem -> los contenidos del usuario que tengamos
+Get-NetAdapter -> nos muestra los adaptadores de red
+get-command -verb new -> buscara los comandos que contengan el verbo "new" 
+get-command -Noun localgroup -> busca los comandos cuyo nombre sea "localgroup"
+get-command *localgroup* -> buscara los comandos que tengan o contengan la palabra "localgroup"
+get-module -> para ver un modulo
+get-command -module -> para seleccionar y ver que comandos tiene un modulo (agregarlo despues de - module)
+get-module -ListAvailable -> nos muestra todos los modulos, que esten disponibles
+import-module "nombre" -> nos permite importar modulos, sino permite, podemos agregra al final -verbose
+remove-module "nombre" -> para quitar el modulo de memoria
+get-help "nombredelcomando" -> para saber informacion de un comando
+get-history -> para ver el historial de comandos ejecutados
+CTRL + S -> nos permite buscar dentro del historial de comandos ejecutados (las teclas se pulsan)
+get-alias -> para ver como usar comandos, como alias
+get-locaction (pwd): nos devuelve la ruta o path en la que nos encontramos
+set-location (cd): nos desplaza los por directorios
+get-childitem (ls): nos muestra el contenido del directorio
+get-childitem c:\ -Attributes hidden : nos permite ver ciertos atributos (en este caso ocultos en C:)
+new-item prueba1 -ItemType Directory (md): nos permite crear un nuevo item de tipo directorio
+new-item textt1.txt (ni): nos crea un archivo (podemos especificar un directorio)
+remove-item "nombrededirectorio" -recurse (rm): para eliminar cosas, en este caso un directorio(el -recurse elimina subdirectorios o vinculos que tenga el archivo/capeta) 
+otros mas: move-itme (mv), rename-item (ren), copy-item (cp), get-content (cat)
+
+TUBERIAS: nos permiten conectar la salida de un cmdlet con la entrada de otro, que la tratara como su informaciond e inicio, utilizaremos el caracter | (tuberia o pipe) para enlazar los comandos.
+
+get-command|measure-object : la primera parte me muestra comandos, y despues del | contabiliza el numero de estos
+get-chilitem -Recurse | where-object {$_.length-gt 100Mb}: el primero ve todas las estructuras de directorios y el segundo filtra por los objetos que sean mayor a 100Mb
+-> al comando anterior podriamos sumar: sort-object -Descending -Property Length (para que ademas, nos los muestre en orden decendiente, partiendo con el de mayor tamanno)
+algun cmdlet | ft -a : la segunda parte hace un autoajuste a las columnas
+get-netTCPconnection | where-object{$_.State -eq 'Establisched'}: nos muesta unicamente a los que tienen como campo 'Establecido'
+Redireccionamiento: nos permiten mandar los redusltados a un lugar diferente de la pantalla (normalemnte a un archivo), > (crea un nuevo archivo y deposita en el la salida del cmdlet, >> (annade al conenido del archivo la salida del cmdlet))
+
+Seguridad en los scripts: niveles de seguridad (se deben abrir la consola en forma de Admin)
+Restricted: no se permite la ejecucion de script
+AllSigned: todos los script deberane star autenticados para poder ejecutarlos
+RemoteSigned: solo se deben autenticar script de forma remotas(estan permitidos local)
+Unrestricted: se ejecutara cualquier script sin importar su origen
+get-executionpolicy: para saber que politica estoy ejecutando
+set-executionpolicy: para setear nuestra propia politica
+
+PowerShell ISE: integrate scripting environment, su gran ventaja es que integra las tareas realitvas a la escritura, depuracion y ejecucion de scripts
+
+scripting
+# : para comentar una linea
+<# #>: para comentar un bloque
+Variables: no es obligatorio declarar ni iniciallizar, con el signo = le asignamos un valor, el primer caracter debe ser siempre un $
+$edad=51 : asigna a la variable edad el valor de 51
+$nombre = "Manuel dom": asigna a la variable el string manuel dom
+$nombre.GetType(): con esto podemos saber el valor de la variable nombre
+new-variable -name C -values 300 -option Constant : creo una nueva variable de tipo constante con el valor 300
+
+read-host: guarda en una variable lo que escriba el usuario, pero como texto
+write-host: muestra en pantalla un texto o el contenido de una variable
+$numero = read-host "cual es tu numero?" : por consola nos mostrara el texto entre "" y nos creara un apartado para escribir el contenido que se guardara en la variable numero
+[int]$edad = read-host "ingrece edad": en el [] se puede especificar que tipo de dato estamos tratando, en este caso es un interger
+v1 + " " + v2: de esta forma concatenamos la v1 con un espacio y la v2
+
+operadores logicos
+-eq: igual, -ne: diferente, -lt: menor, -le:menor o igual, -gt:mayor, -ge:mayor o igual
+
+estructuras: while, do-while, for, foreach, if, else, switch (entro otras varias miles)
